@@ -8,10 +8,12 @@ using UnityEngine;
 public class Collision_Handler : MonoBehaviour
 {
     public static Collision_Handler instance;
+    public Transfer transfer;
     public Player player;
     public Layers layer;
+    public Layers layer2;
     public ContactPoint2D contacts;
-    public bool canmove = true; //임시
+    public bool canmove = true; //占쌈쏙옙
     Vector2 inputvec;
     public float speed;
     public float jumpSpeed;
@@ -98,6 +100,8 @@ public class Collision_Handler : MonoBehaviour
                 break;
         }
 
+        Debug.Log(Time.fixedDeltaTime);
+
 
 
     }
@@ -122,33 +126,28 @@ public class Collision_Handler : MonoBehaviour
     {
         wallcount = 0;
         for (int i = 0; i < layer.coll_count; i++)
-        //캐릭터 x포지션이 콜라이더 x포지션과 겹쳐있는 상태에서
         {
             if (layer.layerPosMin[i].x < playerPosMin.x && playerPosMin.x < layer.layerPosMax[i].x
                 || layer.layerPosMin[i].x < playerPosMax.x && playerPosMax.x < layer.layerPosMax[i].x)
             {
-                //y축까지 겹치면(바닥면과)
                 if (layer.layerPosMax[i].y > playerPosMin.y - vertAlpVec.y && playerPosMin.y - vertAlpVec.y > layer.layerPosMin[i].y)
                 {
-                    vertVec.y = Mathf.Clamp(vertVec.y, 0, 1);//수직이동 제한
+                    vertVec.y = Mathf.Clamp(vertVec.y, 0, 1);
                     jumpCount = 2;
                     spaceTrigger = true;
                     jumpTrigger = true;
                 }
-                //y축 천장면과 겹치면
                 if (layer.layerPosMax[i].y > playerPosMax.y + vertAlpVec.y && playerPosMax.y + vertAlpVec.y > layer.layerPosMin[i].y
                     || playerPosMax.y + vertAlpVec.y > ceil.y)
                 {
-                    vertVec.y = Mathf.Clamp(vertVec.y, -1, 0);//수직이동 제한
+                    vertVec.y = Mathf.Clamp(vertVec.y, -1, 0);
                     gravity = "falling";
                 }
             }
-            //캐릭터 y포지션이 콜라이더 y포지션과 겹쳐있는 상태에서
 
             if (layer.layerPosMin[i].y < playerPosMin.y && playerPosMin.y < layer.layerPosMax[i].y
                 || layer.layerPosMin[i].y < playerPosMax.y && playerPosMax.y < layer.layerPosMax[i].y)
             {
-                //x축까지 겹치면
                 if (layer.layerPosMin[i].x < playerPosMin.x - horiAlpVec.x && playerPosMin.x - horiAlpVec.x < layer.layerPosMax[i].x
                     && Input.GetAxisRaw("Horizontal") == -1)
                 {
@@ -205,5 +204,10 @@ public class Collision_Handler : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         canmove = true;
         animator.SetBool("walljump", false);
+    }
+
+    public void TransferCheck()
+    {
+
     }
 }

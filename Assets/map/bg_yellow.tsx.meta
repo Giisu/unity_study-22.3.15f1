@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 47a16e8fc6b2a064eb4d92df6b17e6f8
+guid: 18a169ccbc12629429a34e6fcce6cff2
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -9,10 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: cc34d0f3dc257a442819830b408c5322, type: 3}
   missingFiles: []
-  errors:
-  - Could not generate asset path for '../../../../My project/Assets/Pixel Adventure
-    1/Assets/Background/Blue.png'
-  - 'Missing texture asset: ../../../../My project/Assets/Pixel Adventure 1/Assets/Background/Blue.png'
+  errors: []
   warnings: []
   missingSortingLayers: []
   missingLayers: []
@@ -20,7 +17,7 @@ ScriptedImporter:
   importerVersion: 13
   pixelsPerUnit: 100
   edgesPerEllipse: 32
-  numberOfObjectsImported: 2
+  numberOfObjectsImported: 35
   useSpriteAtlas: 1
   atlasWidth: 2048
   atlasHeight: 2048

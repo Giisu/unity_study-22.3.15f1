@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4d7bb0dc45578d84ba87ef77345d1365
+guid: 6092c31d4e928c74194eb3750585914c
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -9,11 +9,7 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 1fa25d03934ea624a82bf2fcee6f0873, type: 3}
   missingFiles: []
-  errors:
-  - Errors detected in tileset 'background_a.tsx'. Check the tileset inspector for
-    more details. Your map may be broken until these are fixed.
-  - Errors detected in tileset 'background_aa.tsx'. Check the tileset inspector for
-    more details. Your map may be broken until these are fixed.
+  errors: []
   warnings: []
   missingSortingLayers: []
   missingLayers: []
