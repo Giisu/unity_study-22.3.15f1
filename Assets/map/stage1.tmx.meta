@@ -1,0 +1,43 @@
+fileFormatVersion: 2
+guid: 3ffeb9872a5f64d4fbcd161c7f406e83
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 1fa25d03934ea624a82bf2fcee6f0873, type: 3}
+  missingFiles: []
+  errors:
+  - Errors detected in tileset 'bga.tsx'. Check the tileset inspector for more details.
+    Your map may be broken until these are fixed.
+  - Could not find tile 248. Make sure the tilesets were successfully imported.
+  - Could not find tile 249. Make sure the tilesets were successfully imported.
+  - Could not find tile 250. Make sure the tilesets were successfully imported.
+  - Could not find tile 251. Make sure the tilesets were successfully imported.
+  - Could not find tile 252. Make sure the tilesets were successfully imported.
+  - Could not find tile 253. Make sure the tilesets were successfully imported.
+  - Could not find tile 254. Make sure the tilesets were successfully imported.
+  - Could not find tile 255. Make sure the tilesets were successfully imported.
+  - Could not find tile 256. Make sure the tilesets were successfully imported.
+  - Could not find tile 257. Make sure the tilesets were successfully imported.
+  - Could not find tile 258. Make sure the tilesets were successfully imported.
+  - Could not find tile 259. Make sure the tilesets were successfully imported.
+  - Could not find tile 260. Make sure the tilesets were successfully imported.
+  - Could not find tile 261. Make sure the tilesets were successfully imported.
+  - Could not find tile 262. Make sure the tilesets were successfully imported.
+  - Could not find tile 263. Make sure the tilesets were successfully imported.
+  warnings: []
+  missingSortingLayers: []
+  missingLayers: []
+  missingTags: []
+  importerVersion: 26
+  pixelsPerUnit: 100
+  edgesPerEllipse: 32
+  numberOfObjectsImported: 2
+  tilesAsObjects: 0
+  sortingMode: 0
+  isIsometric: 0
+  customImporterClassName: 
+  internalTilesets: []

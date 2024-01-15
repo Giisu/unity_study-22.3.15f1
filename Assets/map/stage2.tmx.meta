@@ -1,0 +1,29 @@
+fileFormatVersion: 2
+guid: 4d7bb0dc45578d84ba87ef77345d1365
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 1fa25d03934ea624a82bf2fcee6f0873, type: 3}
+  missingFiles: []
+  errors:
+  - Errors detected in tileset 'background_a.tsx'. Check the tileset inspector for
+    more details. Your map may be broken until these are fixed.
+  - Errors detected in tileset 'background_aa.tsx'. Check the tileset inspector for
+    more details. Your map may be broken until these are fixed.
+  warnings: []
+  missingSortingLayers: []
+  missingLayers: []
+  missingTags: []
+  importerVersion: 26
+  pixelsPerUnit: 100
+  edgesPerEllipse: 32
+  numberOfObjectsImported: 2
+  tilesAsObjects: 0
+  sortingMode: 0
+  isIsometric: 0
+  customImporterClassName: 
+  internalTilesets: []

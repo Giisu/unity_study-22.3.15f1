@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="5">
+ <tileset firstgid="1" source="../Images/tiled/background_b.tsx"/>
+ <tileset firstgid="5" source="../Images/tiled/tileset_a.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="17" height="17">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,0,
+0,3,4,0,3,4,0,3,4,0,3,4,0,3,4,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,0,
+0,3,4,0,3,4,0,3,4,0,3,4,0,3,4,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,0,
+0,3,4,0,3,4,0,3,4,0,3,4,0,3,4,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,0,
+0,3,4,0,3,4,0,3,4,0,3,4,0,3,4,0,0,
+0,11,12,12,12,12,12,12,12,12,12,12,12,12,12,13,0,
+0,33,34,34,34,34,34,34,34,34,34,34,34,34,34,35,0,
+0,55,56,56,56,56,56,56,56,56,56,56,56,56,56,57,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="1" x="11" y="8.5" width="5" height="253"/>
+  <object id="2" x="12.5" y="256.5" width="248" height="7.5"/>
+  <object id="3" x="255.5" y="6.5" width="11" height="260.5"/>
+  <object id="4" x="6.5" y="6.5" width="258.5" height="9"/>
+ </objectgroup>
+</map>
