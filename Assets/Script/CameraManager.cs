@@ -34,7 +34,7 @@ public class CameraManager : MonoBehaviour
         for(int i=0;i<countMap;i++)
         {
             mapTrans[i] = maps[index[i]].transform;
-            Debug.Log(mapTrans[i].position);
+
         }
 
         cam.transform.position = mapTrans[0].position;

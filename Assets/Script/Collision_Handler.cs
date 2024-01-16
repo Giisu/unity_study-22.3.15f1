@@ -10,8 +10,7 @@ public class Collision_Handler : MonoBehaviour
     public static Collision_Handler instance;
     public Transfer transfer;
     public Player player;
-    public Layers layer;
-    public Layers layer2;
+    public Layers[] layer;
     public ContactPoint2D contacts;
     public bool canmove = true; //�ӽ�
     Vector2 inputvec;
@@ -39,6 +38,7 @@ public class Collision_Handler : MonoBehaviour
     public bool wallTrigger = false;
     public int wallcount;
     public int wallmultiple;
+    public int mapIndex=0;
 
 
     void Awake()
@@ -50,12 +50,6 @@ public class Collision_Handler : MonoBehaviour
         coll = instance.player.GetComponent<BoxCollider2D>();
         horiAlpVec = Vector2.right * speed * Time.fixedDeltaTime;
         vertAlpVec = Vector2.up * jumpSpeed * Time.fixedDeltaTime;
-    }
-
-    private void FixedUpdate()
-    {
-        
-
     }
 
 
@@ -76,6 +70,7 @@ public class Collision_Handler : MonoBehaviour
         {
             spriter.flipX = inputvec.x < 0;
         }
+        mapIndex = instance.player.currnetMap-1;
     }
 
     
@@ -100,7 +95,6 @@ public class Collision_Handler : MonoBehaviour
                 break;
         }
 
-        Debug.Log(Time.fixedDeltaTime);
 
 
 
@@ -125,19 +119,20 @@ public class Collision_Handler : MonoBehaviour
     public void CollisionCheck()
     {
         wallcount = 0;
-        for (int i = 0; i < layer.coll_count; i++)
+        for (int i = 0; i < layer[mapIndex].coll_count; i++)
         {
-            if (layer.layerPosMin[i].x < playerPosMin.x && playerPosMin.x < layer.layerPosMax[i].x
-                || layer.layerPosMin[i].x < playerPosMax.x && playerPosMax.x < layer.layerPosMax[i].x)
+            if (layer[mapIndex].layerPosMin[i].x < playerPosMin.x && playerPosMin.x < layer[mapIndex].layerPosMax[i].x
+                || layer[mapIndex].layerPosMin[i].x < playerPosMax.x && playerPosMax.x < layer[mapIndex].layerPosMax[i].x
+                || layer[mapIndex].layerPosMin[i].x >= playerPosMin.x && layer[mapIndex].layerPosMax[i].x <= playerPosMax.x)
             {
-                if (layer.layerPosMax[i].y > playerPosMin.y - vertAlpVec.y && playerPosMin.y - vertAlpVec.y > layer.layerPosMin[i].y)
+                if (layer[mapIndex].layerPosMax[i].y > playerPosMin.y - vertAlpVec.y && playerPosMin.y - vertAlpVec.y > layer[mapIndex].layerPosMin[i].y)
                 {
                     vertVec.y = Mathf.Clamp(vertVec.y, 0, 1);
                     jumpCount = 2;
                     spaceTrigger = true;
                     jumpTrigger = true;
                 }
-                if (layer.layerPosMax[i].y > playerPosMax.y + vertAlpVec.y && playerPosMax.y + vertAlpVec.y > layer.layerPosMin[i].y
+                if (layer[mapIndex].layerPosMax[i].y > playerPosMax.y + vertAlpVec.y && playerPosMax.y + vertAlpVec.y > layer[mapIndex].layerPosMin[i].y
                     || playerPosMax.y + vertAlpVec.y > ceil.y)
                 {
                     vertVec.y = Mathf.Clamp(vertVec.y, -1, 0);
@@ -145,10 +140,11 @@ public class Collision_Handler : MonoBehaviour
                 }
             }
 
-            if (layer.layerPosMin[i].y < playerPosMin.y && playerPosMin.y < layer.layerPosMax[i].y
-                || layer.layerPosMin[i].y < playerPosMax.y && playerPosMax.y < layer.layerPosMax[i].y)
+            if (layer[mapIndex].layerPosMin[i].y < playerPosMin.y && playerPosMin.y < layer[mapIndex].layerPosMax[i].y
+                || layer[mapIndex].layerPosMin[i].y < playerPosMax.y && playerPosMax.y < layer[mapIndex].layerPosMax[i].y
+                || layer[mapIndex].layerPosMin[i].y >= playerPosMin.y && layer[mapIndex].layerPosMax[i].y <= playerPosMax.y)
             {
-                if (layer.layerPosMin[i].x < playerPosMin.x - horiAlpVec.x && playerPosMin.x - horiAlpVec.x < layer.layerPosMax[i].x
+                if (layer[mapIndex].layerPosMin[i].x < playerPosMin.x - horiAlpVec.x && playerPosMin.x - horiAlpVec.x < layer[mapIndex].layerPosMax[i].x
                     && Input.GetAxisRaw("Horizontal") == -1)
                 {
                     horiVec.x = Mathf.Clamp(horiVec.x, 0, 1);
@@ -157,7 +153,7 @@ public class Collision_Handler : MonoBehaviour
 
                 }
 
-                if (layer.layerPosMin[i].x < playerPosMax.x + horiAlpVec.x && playerPosMax.x + horiAlpVec.x < layer.layerPosMax[i].x
+                if (layer[mapIndex].layerPosMin[i].x < playerPosMax.x + horiAlpVec.x && playerPosMax.x + horiAlpVec.x < layer[mapIndex].layerPosMax[i].x
                 && Input.GetAxisRaw("Horizontal") == 1)
                 {
                     horiVec.x = Mathf.Clamp(horiVec.x, -1, 0);
@@ -206,8 +202,4 @@ public class Collision_Handler : MonoBehaviour
         animator.SetBool("walljump", false);
     }
 
-    public void TransferCheck()
-    {
-
-    }
 }
