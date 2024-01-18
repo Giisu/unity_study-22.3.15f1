@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 public class CameraMan : MonoBehaviour
 {
     Vector3[] positions;
+ 
+
 
     void Awake()
     {
@@ -14,7 +16,7 @@ public class CameraMan : MonoBehaviour
         positions[1] = new Vector3(5.111f, -1.601f, -1f);
         positions[2] = new Vector3(8.600f, -1.601f, -1f);
         positions[3] = new Vector3(12.111f, -1.601f, -1f);
-
+        
     }
 
     void Update()

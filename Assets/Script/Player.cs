@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class Player : MonoBehaviour
 {
     public int currnetMap = 1;
-    Rigidbody2D rigid;
+    public Rigidbody2D rigid;
     public Transfer transfer;
 
     private void Awake()
