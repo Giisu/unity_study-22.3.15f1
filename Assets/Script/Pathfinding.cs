@@ -5,9 +5,11 @@ using UnityEngine;
 public class Pathfinding : MonoBehaviour
 {
     Grids grid;
+
     private void Start()
     {
         grid = GetComponent<Grids>();
+
     }
     public List<Node> PathFind(Vector3 startPos, Vector3 endPos) //출발점과 도착점을 받는다.
     {
@@ -74,7 +76,7 @@ public class Pathfinding : MonoBehaviour
         grid.path = path;
         return path;
     }
-    int GetDistance(Node aNode, Node bNode) //두가지 노드가 주어지면 거리 가중치를 계산하는 함수이다.
+    public int GetDistance(Node aNode, Node bNode) //두가지 노드가 주어지면 거리 가중치를 계산하는 함수이다.
     {
         int x = Mathf.Abs(aNode.myX - bNode.myX);
         int y = Mathf.Abs(aNode.myY - bNode.myY);

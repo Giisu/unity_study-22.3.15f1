@@ -14,7 +14,13 @@ public class Grids : MonoBehaviour
     public bool trigger = false;
     public int x;
     public int y;
+    public static Grids instance;
 
+
+    void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         nodeCountX = Mathf.CeilToInt(worldSize.x / nodeSize);
@@ -37,7 +43,6 @@ public class Grids : MonoBehaviour
     {
         if(trigger)
         {
-            Debug.Log(myNode[x,y].myPos);
             trigger = false;
         }
 
@@ -68,10 +73,10 @@ public class Grids : MonoBehaviour
     {
         int posX = Mathf.RoundToInt(Mathf.Abs(vector.x - transform.position.x) / nodeSize);
         int posY = Mathf.RoundToInt(Mathf.Abs(vector.y - transform.position.y) / nodeSize);
-        Debug.Log(posX);
-        Debug.Log(posY);
         return myNode[posX,posY];
     }
+
+    
  private void OnDrawGizmos()
       {
           Gizmos.DrawWireCube(transform.position, new Vector3(worldSize.x, worldSize.y, 1));
