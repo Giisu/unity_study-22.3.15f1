@@ -24,8 +24,8 @@ public class Collision_Handler : MonoBehaviour
     public Vector2 vertVec = Vector2.zero;
     public Vector2 horiAlpVec;
     public Vector2 vertAlpVec;
-    public Vector2 playerPosMin;
-    public Vector2 playerPosMax;
+    public float[] playerPosX = new float[2];
+    public float[] playerPosY = new float[2];
     public Vector2 ceil;
     public bool hitCeil = false;
     public bool hitVer = false;
@@ -38,7 +38,7 @@ public class Collision_Handler : MonoBehaviour
     public bool wallTrigger = false;
     public int wallcount;
     public int wallmultiple;
-    public int mapIndex=0;
+    public int mapIndex = 0;
 
 
     void Awake()
@@ -70,10 +70,10 @@ public class Collision_Handler : MonoBehaviour
         {
             spriter.flipX = inputvec.x < 0;
         }
-        mapIndex = instance.player.currnetMap-1;
+        mapIndex = instance.player.currnetMap - 1;
     }
 
-    
+
 
     public void GravityVec()
     {
@@ -90,7 +90,7 @@ public class Collision_Handler : MonoBehaviour
                 break;
 
             case "jumping":
-                if(spaceTrigger)
+                if (spaceTrigger)
                     Jumping();
                 break;
         }
@@ -103,75 +103,157 @@ public class Collision_Handler : MonoBehaviour
     public void MovingVec()
     {
         inputvec.x = Input.GetAxisRaw("Horizontal");
-        if(canmove)
+        if (canmove)
             horiVec = inputvec * speed * Time.fixedDeltaTime;
         wallVec = -inputvec * speed * Time.fixedDeltaTime * 2;
     }
 
     public void GetPlayerColl()
     {
-        playerPosMin.x = rigid.position.x - coll.size.x / 2;
-        playerPosMin.y = rigid.position.y - coll.size.y / 2;
-        playerPosMax.x = rigid.position.x + coll.size.x / 2;
-        playerPosMax.y = rigid.position.y + coll.size.y / 2;
+        playerPosX[0] = rigid.position.x - coll.size.x / 2;
+        playerPosY[0] = rigid.position.y - coll.size.y / 2;
+        playerPosX[1] = rigid.position.x + coll.size.x / 2;
+        playerPosY[1] = rigid.position.y + coll.size.y / 2;
+    }
+
+    List<string> IsPilePosition(Layers layer)
+    {
+        float curPosmin = 0;
+        float curPosmax = 0;
+        float mapPosmin = 0;
+        float mapPosmax = 0;
+        List<string> results = new List<string>();
+
+
+        //x축먼저 검사
+        curPosmin = playerPosX[0];
+        curPosmax = playerPosX[1];
+        for (int i = 0; i < layer.coll_count; i++)
+        {
+            mapPosmin = layer.layerPosMin[i].x;
+            mapPosmax = layer.layerPosMax[i].x;
+            if (mapPosmin < curPosmin && curPosmin < mapPosmax ||
+                mapPosmin < curPosmax && curPosmax < mapPosmax ||
+                curPosmin >= mapPosmin && mapPosmax <= curPosmax)
+            {
+                results.Add(IsPileNextPosition(layer, i, 'y'));
+            }
+
+        }
+        //y축검사
+        curPosmin = playerPosY[0];
+        curPosmax = playerPosY[1];
+        for (int i = 0; i < layer.coll_count; i++)
+        {
+            mapPosmin = layer.layerPosMin[i].y;
+            mapPosmax = layer.layerPosMax[i].y;
+            if (mapPosmin < curPosmin && curPosmin < mapPosmax ||
+                mapPosmin < curPosmax && curPosmax < mapPosmax ||
+                curPosmin >= mapPosmin && mapPosmax <= curPosmax)
+            {
+                results.Add(IsPileNextPosition(layer, i, 'x'));
+            }
+        }
+
+
+        return results;
+    }
+
+    string IsPileNextPosition(Layers layer, int i, char dir)
+    {
+        float next = 0;
+        string result = null;
+        float mapPosmax;
+        float mapPosmin;
+        float curPosmax;
+        float curPosmin;
+
+        switch (dir)
+        {
+            case ('y') :
+                mapPosmax = layer.layerPosMax[i].y;
+                mapPosmin = layer.layerPosMin[i].y;
+                curPosmax = playerPosY[1];
+                curPosmin = playerPosY[0];
+                next = vertAlpVec.y;
+                if (mapPosmax > curPosmax + next &&
+                    curPosmax + next > mapPosmin)
+                    result = "up";
+                
+                if (mapPosmax > curPosmin - next &&
+                    curPosmin - next > mapPosmin)
+                    result = "down";
+            break;
+
+            case ('x') : 
+                mapPosmax = layer.layerPosMax[i].x;
+                mapPosmin = layer.layerPosMin[i].x;
+                curPosmax = playerPosX[1];
+                curPosmin = playerPosX[0];
+
+                if (mapPosmax > curPosmax + next &&
+                    curPosmax + next > mapPosmin)
+                    result = "left";
+
+                if (mapPosmax < curPosmin - next &&
+                    curPosmin - next > mapPosmin)
+                    result = "right";
+                break;
+        }
+        return result;
     }
 
     public void CollisionCheck()
     {
+        
         wallcount = 0;
-        for (int i = 0; i < layer[mapIndex].coll_count; i++)
+        List<string> collisionDir = new List<string>();
+        collisionDir = IsPilePosition(layer[mapIndex]);
+        
+        
+        foreach(string dir in collisionDir)
         {
-            if (layer[mapIndex].layerPosMin[i].x < playerPosMin.x && playerPosMin.x < layer[mapIndex].layerPosMax[i].x
-                || layer[mapIndex].layerPosMin[i].x < playerPosMax.x && playerPosMax.x < layer[mapIndex].layerPosMax[i].x
-                || layer[mapIndex].layerPosMin[i].x >= playerPosMin.x && layer[mapIndex].layerPosMax[i].x <= playerPosMax.x)
+            Debug.Log(dir);
+            switch(dir)
             {
-                if (layer[mapIndex].layerPosMax[i].y > playerPosMin.y - vertAlpVec.y && playerPosMin.y - vertAlpVec.y > layer[mapIndex].layerPosMin[i].y)
-                {
-                    vertVec.y = Mathf.Clamp(vertVec.y, 0, 1);
-                    jumpCount = 2;
-                    spaceTrigger = true;
-                    jumpTrigger = true;
-                }
-                if (layer[mapIndex].layerPosMax[i].y > playerPosMax.y + vertAlpVec.y && playerPosMax.y + vertAlpVec.y > layer[mapIndex].layerPosMin[i].y
-                    || playerPosMax.y + vertAlpVec.y > ceil.y)
-                {
-                    vertVec.y = Mathf.Clamp(vertVec.y, -1, 0);
-                    gravity = "falling";
-                }
-            }
+                case ("down") :
+                vertVec.y = Mathf.Clamp(vertVec.y, 0, 1);
+                jumpCount = 2;
+                spaceTrigger = true;
+                jumpTrigger = true;
+                break;
 
-            if (layer[mapIndex].layerPosMin[i].y < playerPosMin.y && playerPosMin.y < layer[mapIndex].layerPosMax[i].y
-                || layer[mapIndex].layerPosMin[i].y < playerPosMax.y && playerPosMax.y < layer[mapIndex].layerPosMax[i].y
-                || layer[mapIndex].layerPosMin[i].y >= playerPosMin.y && layer[mapIndex].layerPosMax[i].y <= playerPosMax.y)
-            {
-                if (layer[mapIndex].layerPosMin[i].x < playerPosMin.x - horiAlpVec.x && playerPosMin.x - horiAlpVec.x < layer[mapIndex].layerPosMax[i].x
-                    && Input.GetAxisRaw("Horizontal") == -1)
+                case("up") :
+                vertVec.y = Mathf.Clamp(vertVec.y, -1, 0);
+                gravity = "falling";
+                break;
+
+                case("left") :
+                if(Input.GetAxisRaw("Horizontal") == -1)
                 {
                     horiVec.x = Mathf.Clamp(horiVec.x, 0, 1);
                     wallcount++;
-
-
                 }
+                break;
 
-                if (layer[mapIndex].layerPosMin[i].x < playerPosMax.x + horiAlpVec.x && playerPosMax.x + horiAlpVec.x < layer[mapIndex].layerPosMax[i].x
-                && Input.GetAxisRaw("Horizontal") == 1)
+                case("right") :
+                if(Input.GetAxisRaw("Horizontal") == 1)
                 {
                     horiVec.x = Mathf.Clamp(horiVec.x, -1, 0);
                     wallcount++;
-
                 }
-
-
+                break;
 
             }
         }
+
         wallTrigger = wallcount > 0;
     }
 
     public void Jumping()
     {
         spaceTrigger = false;
-        if(wallTrigger && jumpCount==1)
+        if (wallTrigger && jumpCount == 1)
         {
             canmove = false;
             horiVec += wallVec;
@@ -192,7 +274,7 @@ public class Collision_Handler : MonoBehaviour
 
     void SetCeil()
     {
-        ceil.y = playerPosMax.y + jumpHeight;
+        ceil.y = playerPosX[1] + jumpHeight;
     }
 
     IEnumerator delay()
@@ -201,5 +283,6 @@ public class Collision_Handler : MonoBehaviour
         canmove = true;
         animator.SetBool("walljump", false);
     }
+
 
 }

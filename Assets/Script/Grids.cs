@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Grids : MonoBehaviour
@@ -11,7 +12,6 @@ public class Grids : MonoBehaviour
     int nodeCountY;
     [SerializeField] LayerMask obstacle;
     public List<Node> path;
-    public bool trigger = false;
     public int x;
     public int y;
     public static Grids instance;
@@ -37,16 +37,10 @@ public class Grids : MonoBehaviour
                 myNode[i, j] = new Node(noHit, pos,i,j);
             }
         }      
+        CloseNodeInit();
     }
 
-    void Update()
-    {
-        if(trigger)
-        {
-            trigger = false;
-        }
-
-    }
+ 
     public List<Node> SearchNeightborNode(Node node)
     {
         
@@ -96,6 +90,33 @@ public class Grids : MonoBehaviour
               }
           }
       }
+    void CloseNodeInit()
+    {
+        //List<Node> initNode = new List<Node>();
+        List<Node> neighbor = new List<Node>();
+        HashSet<Node> initList = new HashSet<Node>();
+        foreach(Node no in myNode)
+        {
+            if(!no.canWalk)
+            {
+                neighbor = SearchNeightborNode(no);
+                foreach(Node neighbornod in neighbor)
+                {
+                    if(neighbornod.canWalk)
+                    {
+                        initList.Add(neighbornod);
+                    }
+                }
+
+            }
+        }
+
+        foreach(Node no in myNode)
+        {
+            if(!initList.Contains(no))
+                no.canWalk = false;
+        }
+    }  
     
    
 }
