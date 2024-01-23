@@ -11,28 +11,60 @@ public class Player : MonoBehaviour
     public int currnetMap = 1;
     public Rigidbody2D rigid;
     public Transfer transfer;
+    BoxCollider2D coll;
+    public bool space = false;
+    public Vector2 inputvec;
+    public bool canmove = true; 
+    public Vector2 horiVec;
+    public Vector2 vertVec = Vector2.zero;
+    public Vector2 horiAlpVec;
+    public Vector2 vertAlpVec;
+    public float speed;
+    public float jumpSpeed;
+    public float jumpHeight;
+    public int jumpCount;
+    public Vector2 revHoriVec;
+    public Vector2 revVertVec;
+
+    public float[] playerPosX = new float[2];
+    public float[] playerPosY = new float[2];
+    
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
+        // playerPosX = new float[2];
+        // playerPosY = new float[2];
+        for(int i=0; i<2; i++)
+        {
+            playerPosX[i] = 0;
+            playerPosY[i] = 0;
+        }
     }
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Space) && Collision_Handler.instance.spaceTrigger)
-            Collision_Handler.instance.gravity = "jumping";
- 
-        Collision_Handler.instance.MovingVec();
-        Collision_Handler.instance.GravityVec();
-        Collision_Handler.instance.GetPlayerColl();
+        GetPlayerColl();
+
+        space = Collision_Handler.instance.spaceTrigger == true? Input.GetKey(KeyCode.Space) : false;
+        if (space)
+            Collision_Handler.instance.Jumping(false);
+
+        
+        MovingVec();
+        Collision_Handler.instance.Falling();
         Collision_Handler.instance.CollisionCheck();
-        Repos();
+        Collision_Handler.instance.MonsterCollisionCheck();
         CheckTransfer();
+        Repos();
 
     }
 
+
+
     public void Repos()
     {
-        rigid.MovePosition(rigid.position + Collision_Handler.instance.horiVec + Collision_Handler.instance.vertVec);
+        rigid.MovePosition(rigid.position + horiVec + vertVec);
     }
 
     public void CheckTransfer()
@@ -91,4 +123,23 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void GetPlayerColl()
+    {
+        playerPosX[0] = rigid.position.x - coll.size.x / 2;
+        playerPosY[0] = rigid.position.y - coll.size.y / 2;
+        playerPosX[1] = rigid.position.x + coll.size.x / 2;
+        playerPosY[1] = rigid.position.y + coll.size.y / 2;
+    }
+
+    public void MovingVec()
+    {
+        inputvec.x = Input.GetAxisRaw("Horizontal");
+        if (canmove)
+            horiVec = inputvec * speed * Time.fixedDeltaTime;
+        revHoriVec = -inputvec * speed * Time.fixedDeltaTime * 2;
+    }
+
+    
+
+    
 }

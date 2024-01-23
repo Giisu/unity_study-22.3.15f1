@@ -8,28 +8,24 @@ using UnityEngine.UIElements;
 
 public class Enemy1 : MonoBehaviour
 {
-    public int currnetMap = 1;
-    public Rigidbody2D rigid;
+    // public int currnetMap = 1;
+    // public Rigidbody2D rigid;
 
-    private void Awake()
-    {
-        rigid = GetComponent<Rigidbody2D>();
-    }
-    private void FixedUpdate()
-    {
-        Collision_Handler.instance.GravityVec();
-        Collision_Handler.instance.GetPlayerColl();
-        Collision_Handler.instance.CollisionCheck();
-        Repos();
+    // private void Awake()
+    // {
+    //     rigid = GetComponent<Rigidbody2D>();
+    // }
+    // private void FixedUpdate()
+    // {
+    //     //Collision_Handler.instance.GravityVec();
+    //     //Collision_Handler.instance.GetPlayerColl();
+    //     Collision_Handler.instance.CollisionCheck();
+    //     Repos();
 
 
-    }
+    
 
-    public void Repos()
-    {
-        rigid.MovePosition(rigid.position + Collision_Handler.instance.horiVec + Collision_Handler.instance.vertVec);
-    }
-
+   
     
 
 }
