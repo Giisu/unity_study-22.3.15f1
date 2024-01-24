@@ -42,7 +42,7 @@ public class MonsterCollision : MonoBehaviour
             }
             if (pTop >= mBot && pBot < mBot)//적에게 밟힘
             {
-                Hit("bot");
+                Hit();
                 return;
             }
         }
@@ -54,26 +54,17 @@ public class MonsterCollision : MonoBehaviour
             if (mRig >= pLef && pLef > mLef ||
                mLef <= pRig && pRig < mRig) //적 좌/우에 닿음
             {
-                Hit("side");
+                Hit();
                 return;
             }
         }
 
     }
-    void Hit(string dir)
+    void Hit()
     {
         player.canmove = false;
-        switch(dir) 
-        {
-            case("bot") :
-            player.vertVec *= -0.5f;
-            player.horiVec *= -0.5f;
-            break;
-
-            case("side") :
-            player.horiVec *= -0.5f;
-            break;
-        }
+        player.vertVec *= -0.5f;
+        player.horiVec *= -0.5f;
         
         StartCoroutine(Canmove_after_hit_delay());
     }

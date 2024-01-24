@@ -41,6 +41,7 @@ public class Collision_Handler : MonoBehaviour
     public int mapIndex = 0;
     public bool isjump = false;
     bool iscoll = false;
+    float pPos = 0;
 
 
     void Awake()
@@ -77,57 +78,58 @@ public class Collision_Handler : MonoBehaviour
     public void MonsterCollisionCheck()
     {
         
-        pTop = player.playerPosY[1];
+        pTop = player.playerPosY[1]; //플레이어 상하좌우 포지션
         pBot = player.playerPosY[0];
         pLef = player.playerPosX[0];
         pRig = player.playerPosX[1];
-        mTop = monster.monsterPosY[1];
+
+        mTop = monster.monsterPosY[1]; //몬스터 상하좌우 포지션
         mBot = monster.monsterPosY[0];
         mLef = monster.monsterPosX[0];
         mRig = monster.monsterPosX[1];
 
-        if (mLef < pLef && pLef < mRig ||
-            mLef < pRig && pRig < mRig ||
-            pLef <= mLef && mRig <= pRig)
+        pPos = player.rigid.position.x; //플레이어 센터포지션 x
+
+        if (monster.mharfLef < pPos && pPos < monster.mharfRig)
         {
             if (mTop > pBot-vertNext && mBot < pBot-vertNext)//적 밟음
             {
                 Collision_Handler.instance.Jumping(true);
             }
-            if (pTop > mBot-vertNext && pBot < mBot-vertNext)//적에게 밟힘
-            {
-                Hit("bot");
-            }
+            
         }
 
-        if (mBot < pTop && pTop < mTop ||
-           mBot < pBot && pBot < mTop ||
-           pBot <= mBot && mTop <= pTop)
+        else if (mBot < pTop && pTop < mTop ||
+                 mBot < pBot && pBot < mTop ||
+                 pBot <= mBot && mTop <= pTop)
         {
-            if (mRig > pLef-horiNext && pLef-horiNext > mLef ||
-                mLef < pRig+horiNext && pRig+horiNext < mRig) //적 좌/우에 닿음
-            {
-                Hit("side");
-            }
+            if (mRig > pLef-horiNext && pLef-horiNext > mLef)
+                Hit("right");
+            if(mLef < pRig+horiNext && pRig+horiNext < mRig)
+                Hit("left");
         }
-        else if(mBot <= pTop+vertNext && pTop+vertNext <= mTop && (mRig > pLef-horiNext && pLef-horiNext > mLef || mLef < pRig+horiNext && pRig+horiNext < mRig))
-            Hit("bot");
+
 
     }
     void Hit(string dir)
     {
         player.canmove = false;
-        switch(dir) 
+        player.vertVec.y = -0.3f * Time.fixedDeltaTime;
+        switch(dir)
         {
-            case("bot") :
-            player.vertVec *= -0.5f;
-            player.horiVec *= -0.5f;
+            case ("right") :
+            player.horiVec.x = 1f * Time.fixedDeltaTime;
+            Debug.Log("monsterright");
             break;
 
-            case("side") :
-            player.horiVec *= -0.5f;
+            case("left") :
+            player.horiVec.x = -0.3f * Time.fixedDeltaTime;
+            Debug.Log("monsterleft");
             break;
+
         }
+        
+        player.rigid.MovePosition(player.rigid.position + player.horiVec + player.vertVec);
         
         StartCoroutine(Canmove_after_hit_delay());
     }
@@ -151,7 +153,7 @@ public class Collision_Handler : MonoBehaviour
             return;
         }
 
-        if(wallTrigger && player.jumpCount == 1 && Input.GetKey(KeyCode.Space) && !isjump)
+        if(wallTrigger && player.jumpCount == 1 && Input.GetKey(KeyCode.Space) && !isjump && player.canmove)
         {
             player.canmove = false;
             player.horiVec += player.revHoriVec;
@@ -159,7 +161,7 @@ public class Collision_Handler : MonoBehaviour
             StartCoroutine(Canmove_afterdelay());
             animator.SetBool("walljump", false);
         }
-        if (player.jumpCount > 0)
+        if (player.jumpCount > 0 && player.canmove)
         {
             SetCeil();
             player.vertVec = Vector2.up * player.jumpSpeed * Time.fixedDeltaTime;
@@ -170,7 +172,7 @@ public class Collision_Handler : MonoBehaviour
 
     public void Falling()
     {
-        if(isjump)
+        if(isjump && !player.canmove)
             return;
         player.vertVec = Vector2.down * player.jumpSpeed * Time.fixedDeltaTime;
     }

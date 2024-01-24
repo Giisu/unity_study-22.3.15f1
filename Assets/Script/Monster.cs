@@ -8,6 +8,8 @@ public class Monster : MonoBehaviour
     BoxCollider2D coll;
     public float[] monsterPosX = new float[2];
     public float[] monsterPosY = new float[2];
+    public float mharfLef;
+    public float mharfRig;
 
     void Awake()
     {
@@ -31,5 +33,7 @@ public class Monster : MonoBehaviour
         monsterPosY[0] = rigid.position.y - coll.size.y / 2;
         monsterPosX[1] = rigid.position.x + coll.size.x / 2;
         monsterPosY[1] = rigid.position.y + coll.size.y / 2;
+        mharfLef = rigid.position.x - coll.size.x / 4;
+        mharfRig = rigid.position.x + coll.size.x / 4;
     }
 }
