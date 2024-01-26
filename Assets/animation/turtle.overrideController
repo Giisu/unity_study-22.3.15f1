@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Override
+  m_Name: turtle
   m_Controller: {fileID: 9100000, guid: 60e42df2168853c4e93c8848f3221f32, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: d9b49f5200027e44c9e2373313513f58, type: 2}

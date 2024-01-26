@@ -8,6 +8,7 @@ TagManager:
   - ceiling
   - right_wall
   - left_wall
+  - Monster
   layers:
   - Default
   - TransparentFX

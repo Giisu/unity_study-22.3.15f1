@@ -10,7 +10,7 @@ public class HUD : MonoBehaviour
     Transform[] hpImage = new Transform[3];
     const int count = 3;
 
-    int index = 3;
+    public int index = 3;
     bool isActive;
 
 
@@ -34,6 +34,9 @@ public class HUD : MonoBehaviour
         
         index = Mathf.Clamp(index,0,3);
 
+        if(index == 0)
+            Collision_Handler.instance.Gameover();
+
         
 
     }
@@ -45,6 +48,7 @@ public class HUD : MonoBehaviour
             hpImage[i].gameObject.SetActive(isActive);
         }
     }
+
 
 
 }
